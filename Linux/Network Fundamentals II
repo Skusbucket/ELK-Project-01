@@ -1,0 +1,63 @@
+## Network Fundametals II
+
+Mission 1: 
+
+1. Determine and document the mail servers for starwars.com using NSLOOKUP. 
+I used nslookup -querytype=mx starwars.com. I’ll submit the screenshot.
+
+2. Explain why the Resistance isn't receiving any emails. 
+The Resistance aren’t receiving emails because the servers aren’t the correct primary or secondary servers.
+
+3.Document what a corrected DNS record should be.
+The primary server should be “1 asltx.l.google.com” and the second server should be “5 asltx.2.google.com”
+
+Mission 2:
+
+Determine and document the SPF for theforce.net using NSLOOKUP. 
+"v=spf1 a mx mx:smtp.secureserver.net include:aspmx.googlemail.com ip4:104.156.250.80 ip4:45.63.15.159 ip4:45.63.4.215"
+
+Explain why the Force's emails are going to spam.					
+	The Force’s emails are heading to spam because they changed the IP Address of their email servers to 45.23.176.21. They didn’t add it to the SPF for theforce.net and it won’t allow them.
+Document what a corrected DNS record should be.
+	The DNS should have the new IP Address of their server. It should look like this "v=spf1 a mx mx:smtp.secureserver.net include:aspmx.googlemail.com ip4:104.156.250.80 ip4:45.63.15.159 ip4:45.63.4.215, ip4:45.23.176.21”
+
+Mission 3:
+
+Document how a CNAME should look by viewing the CNAME of www.theforce.net using NSLOOKUP. 												The CNAME would look like “www.theforce.net	canonical name = theforce.net.” so “resistance.theforce.net” should also be canonical name = theforce.net
+
+Explain why the sub page of resistance.theforce.net isn't redirecting to theforce.net.
+Because it isn’t listed to redirect to “theforce.net” only “www.theforce.net” is.
+
+Document what a corrected DNS record should be. 
+The CNAME should look like www.theforce.net 	canonical name=theforce.net
+resistance.theforce.net 	canonical name=theforce.net
+
+
+
+Mission 4:
+
+Confirm the DNS records for princessleia.site.
+princessleia.site	nameserver = ns25.domaincontrol.com.
+princessleia.site	nameserver = ns26.domaincontrol.com.
+
+Document how you would fix the DNS record to prevent this issue from happening again.
+Add a reference to the backup server “princessleia.site  	nameserver=ns2.galaxybackup.com”
+
+Mission 5:
+
+View the Galaxy Network Map and determine the OSPF shortest path from Batuu to Jedha. 
+D C E F J I  L Q T V
+1 2  1  1 1 1 6 4 2 2 =21 hops it would take.
+Confirm your path doesn't include Planet N in its route.
+D C E F J I  L Q T V - No Planet N.
+Document this shortest path so it can be used by the Resistance to develop a static route to improve the traffic.
+
+Mission 6:
+
+Figure out the Dark Side's secret wireless key by using Aircrack-ng.
+The key is dictionary
+Host IP Addresses and MAC Addresses by looking at the decrypted ARP traffic.
+ARP: IP Address is 172.16.0.101 & MAC Address is 00:13:ce:55:98:ef
+172.16.0.1 MAC Address is 00:of:66:e3:e4:01
+Document these IP and MAC Addresses, as the resistance will use these IP addresses to launch a retaliatory attack. 
+ IP Address is 172.16.0.101 & MAC Address is 00:13:ce:55:98:ef
