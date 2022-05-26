@@ -157,34 +157,67 @@ SSH into the control node and follow the steps below:
 - _Which URL do you navigate to in order to check that the ELK server is running? http://[your.VM.External.IP]:5601/app/kibana.
 
 _As a **Bonus**, provide the specific commands the user will need to run to download the playbook, update the files, etc.
+Filebeats
 ```bash
-- name: Config web VM with Docker
+- name: installing and launching filebeat
+  hosts: azureweb
+  become: yes
+  tasks:
+
+  - name: Download Filebeat deb
+    command: curl -L -O https://artifacts.elastic.co/downloads/beats/filebeat/filebeat-7.4.0-amd64.deb
+
+  - name: Install Filebeat deb
+    command: dpkg -i filebeat-7.4.0-amd64.deb
+
+  - name: Drop in filebeat.yml
+    copy:
+      src: /etc/ansible/files/filebeat-config.yml
+      dest: /etc/filebeat/filebeat.yml
+
+  - name: Enable and Configure System Module
+    command: filebeat modules enable system
+
+  - name: Setup Filebeat
+    command: filebeat setup
+
+  - name: Start Filebeat Service
+    command: service filebeat start
+
+  - name: Enable Service Filebeat on boot
+    systemd:
+      name: filebeat
+      enabled: yes
+```
+Metricbeats
+```bash
+- name: Install metricbeat
   hosts: azureweb
   become: true
   tasks:
 
-  - name: docker.io
-    apt:
-      update_cache: yes
-      name: docker.io
-      state: present
+  - name: Download metricbeat
+    command: curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat>
 
-  - name: Install pip3
-    apt:
-      name: python3-pip
-      state: present
+  - name: install metricbeat
+    command: dpkg -i metricbeat-7.4.0-amd64.deb
 
-  - name: Install Python Docker Module
-    pip:
-      name: docker
-      state: present
+  - name: drop in metricbeat config
+    copy:
+      src: /etc/ansible/files/metricbeat-config.yml
+      dest: /etc/metricbeat/metricbeat.yml
 
-  - name: download and launch a docker web container
-    docker_container:
-      name: dvwa
-      image: cyberxsecurity/dvwa
-      state: started
-      restart_policy: always
-      published_ports: 80:80
+  - name: enable and configure docker module for metric beat
+    command: metricbeat modules enable docker
+
+  - name: setup metric beat
+    command: metricbeat setup
+
+  - name: start metric beat
+    command: service metricbeat start
+
+  - name: Enable Service metricbeat on boot
+    systemd:
+      name: metricbeat
+      enabled: yes
 ```
-
