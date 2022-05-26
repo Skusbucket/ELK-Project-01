@@ -1,5 +1,7 @@
 # ELK-Project-01
 My first project with the Rice University cybersecurity bootcamp
+Eric Salinas
+
 ## Automated ELK Stack Deployment
 
 The files in this repository were used to configure the network depicted below.
